@@ -66,12 +66,21 @@ public class NacosNamingService implements NamingService {
 
     private String logName;
 
+    /**
+     * 主机响应
+     */
     private HostReactor hostReactor;
 
+    /**
+     * 心跳响应
+     */
     private BeatReactor beatReactor;
 
     private EventDispatcher eventDispatcher;
 
+    /**
+     * 服务注册发现代理
+     */
     private NamingProxy serverProxy;
 
     public NacosNamingService(String serverList) {
@@ -188,9 +197,15 @@ public class NacosNamingService implements NamingService {
         endpoint = endpointUrl + ":" + endpointPort;
     }
 
+    /**
+     * 从System配置或者环境中或者CredentialService中找寻nameSpace ，如果都没有，则从properties中获取
+     *
+     * @param properties
+     */
     private void initNamespace(Properties properties) {
         String tmpNamespace = null;
 
+        //新开一个线程执行从获取namespace
         tmpNamespace = TemplateUtils.stringEmptyAndThenExecute(tmpNamespace, new Callable<String>() {
             @Override
             public String call() {
@@ -218,7 +233,7 @@ public class NacosNamingService implements NamingService {
                 return namespace;
             }
         });
-
+        //从properties中获取nameNpace
         if (StringUtils.isEmpty(tmpNamespace) && properties != null) {
             tmpNamespace = properties.getProperty(PropertyKeyConst.NAMESPACE);
         }
@@ -282,6 +297,7 @@ public class NacosNamingService implements NamingService {
     @Override
     public void registerInstance(String serviceName, String groupName, Instance instance) throws NacosException {
 
+        //如果是短暂的实例
         if (instance.isEphemeral()) {
             BeatInfo beatInfo = new BeatInfo();
             beatInfo.setServiceName(NamingUtils.getGroupedName(serviceName, groupName));

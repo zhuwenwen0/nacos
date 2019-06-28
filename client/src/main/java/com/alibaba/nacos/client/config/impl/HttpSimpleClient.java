@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Http tool
+ * Http tool  : 用来发送http请求的工具类
  *
  * @author Nacos
  *

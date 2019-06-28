@@ -21,11 +21,11 @@ package com.alibaba.nacos.api.cmdb.pojo;
  */
 public enum EntityEventType {
     /**
-     *
+     * 添加或者更新entity
      */
     ENTITY_ADD_OR_UPDATE,
     /**
-     *
+     * 删除entity
      */
     ENTITY_REMOVE
 }

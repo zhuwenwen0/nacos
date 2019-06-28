@@ -22,61 +22,61 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Instance
+ * Instance:服务的实例，用来向注册中心注册的实例
  *
  * @author nkorange
  */
 public class Instance {
 
     /**
-     * unique id of this instance.
+     * unique id of this instance.:实例id
      */
     private String instanceId;
 
     /**
-     * instance ip
+     * instance ip :实例ip地址
      */
     private String ip;
 
     /**
-     * instance port
+     * instance port :端口
      */
     private int port;
 
     /**
-     * instance weight
+     * instance weight : 权重
      */
     private double weight = 1.0D;
 
     /**
-     * instance health status
+     * instance health status : 是否开启健康检查
      */
     private boolean healthy = true;
 
     /**
-     * If instance is enabled to accept request
+     * If instance is enabled to accept request : 实例是否启用接收请求
      */
     private boolean enabled = true;
 
     /**
-     * If instance is ephemeral
+     * If instance is ephemeral : 实例是否是短暂的
      *
      * @since 1.0.0
      */
     private boolean ephemeral = true;
 
     /**
-     * cluster information of instance
+     * cluster information of instance : 实例的集群
      */
     private String clusterName;
 
     /**
-     * Service information of instance
+     * Service information of instance : 服务名称
      */
     private String serviceName;
 
     /**
-     * user extended attributes
+     * user extended attributes : 附加属性
      */
     private Map<String, String> metadata = new HashMap<String, String>();
 

@@ -44,18 +44,26 @@ import java.util.concurrent.*;
 import static com.alibaba.nacos.client.utils.LogUtils.NAMING_LOGGER;
 
 /**
+ * 在服务注册的时候，需要调用的服务
+ *
  * @author nkorange
  */
 public class NamingProxy {
 
     private static final int DEFAULT_SERVER_PORT = 8848;
 
+    /**
+     * nacos服务的端口
+     */
     private int serverPort = DEFAULT_SERVER_PORT;
 
     private String namespaceId;
 
     private String endpoint;
 
+    /**
+     * nacos服务的ip地址,serverList
+     */
     private String nacosDomain;
 
     private List<String> serverList;
@@ -68,6 +76,13 @@ public class NamingProxy {
 
     private Properties properties;
 
+    /**
+     * 在创建namingProxy的时候就会更新服务列表
+     *
+     * @param namespaceId
+     * @param endpoint
+     * @param serverList
+     */
     public NamingProxy(String namespaceId, String endpoint, String serverList) {
 
         this.namespaceId = namespaceId;
@@ -86,7 +101,7 @@ public class NamingProxy {
         if (StringUtils.isEmpty(endpoint)) {
             return;
         }
-
+        // 用来执行服务列表更新的线程池,里面的任务都是设置成守护线程Daemon
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -96,7 +111,7 @@ public class NamingProxy {
                 return t;
             }
         });
-
+        //
         executorService.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
@@ -165,6 +180,14 @@ public class NamingProxy {
         }
     }
 
+    /**
+     * 注册服务
+     *
+     * @param serviceName
+     * @param groupName
+     * @param instance
+     * @throws NacosException
+     */
     public void registerService(String serviceName, String groupName, Instance instance) throws NacosException {
 
         NAMING_LOGGER.info("[REGISTER-SERVICE] {} registering service {} with instance: {}",
@@ -217,6 +240,12 @@ public class NamingProxy {
         return reqAPI(UtilAndComs.NACOS_URL_BASE + "/instance/list", params, HttpMethod.GET);
     }
 
+    /**
+     * 发送心跳
+     *
+     * @param beatInfo
+     * @return
+     */
     public long sendBeat(BeatInfo beatInfo) {
         try {
             NAMING_LOGGER.info("[BEAT] {} sending beat to server: {}", namespaceId, beatInfo.toString());
@@ -323,6 +352,7 @@ public class NamingProxy {
 
         url = HttpClient.getPrefix() + curServer + api;
 
+        //发送http请求
         HttpClient.HttpResult result = HttpClient.request(url, headers, params, UtilAndComs.ENCODING, method);
         end = System.currentTimeMillis();
 

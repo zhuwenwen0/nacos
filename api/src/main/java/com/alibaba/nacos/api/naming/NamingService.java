@@ -78,6 +78,8 @@ public interface NamingService {
     /**
      * register a instance to service with specified instance properties
      *
+     * 使用default_group注册实例
+     *
      * @param serviceName name of service
      * @param instance    instance to register
      * @throws NacosException
@@ -86,6 +88,7 @@ public interface NamingService {
 
     /**
      * register a instance to service with specified instance properties
+     * 注册实例到groupName这个组下
      *
      * @param serviceName name of service
      * @param groupName   group of service

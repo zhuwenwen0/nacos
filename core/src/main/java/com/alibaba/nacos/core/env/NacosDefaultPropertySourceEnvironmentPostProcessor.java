@@ -78,7 +78,9 @@ public class NacosDefaultPropertySourceEnvironmentPostProcessor implements Envir
     private void processPropertySource(ConfigurableEnvironment environment, ResourceLoader resourceLoader) {
 
         try {
+            //获取nacosDefaultPropertySource配置的值
             PropertySource nacosDefaultPropertySource = buildPropertySource(resourceLoader);
+            //获取spring当前环境的配置值的集合
             MutablePropertySources propertySources = environment.getPropertySources();
             // append nacosDefaultPropertySource as last one in order to be overrided by higher order
             propertySources.addLast(nacosDefaultPropertySource);

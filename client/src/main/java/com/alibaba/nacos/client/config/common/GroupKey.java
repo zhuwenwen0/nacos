@@ -24,6 +24,13 @@ import com.alibaba.nacos.client.utils.StringUtils;
  */
 public class GroupKey {
 
+    /**
+     * group的key : 根据dataId 和group来拼接 dataId + group
+     *
+     * @param dataId
+     * @param group
+     * @return
+     */
     static public String getKey(String dataId, String group) {
         StringBuilder sb = new StringBuilder();
         urlEncode(dataId, sb);

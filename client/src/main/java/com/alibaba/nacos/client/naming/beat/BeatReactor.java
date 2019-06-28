@@ -26,6 +26,8 @@ import java.util.concurrent.*;
 import static com.alibaba.nacos.client.utils.LogUtils.NAMING_LOGGER;
 
 /**
+ * 心跳检测
+ *
  * @author harold
  */
 public class BeatReactor {
@@ -45,6 +47,7 @@ public class BeatReactor {
     public BeatReactor(NamingProxy serverProxy, int threadCount) {
         this.serverProxy = serverProxy;
 
+        //心跳发送的线程池，设置为守护线程
         executorService = new ScheduledThreadPoolExecutor(threadCount, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -75,6 +78,9 @@ public class BeatReactor {
             + ip + Constants.NAMING_INSTANCE_ID_SPLITTER + port;
     }
 
+    /**
+     * 心跳处理
+     */
     class BeatProcessor implements Runnable {
 
         @Override
@@ -91,11 +97,15 @@ public class BeatReactor {
             } catch (Exception e) {
                 NAMING_LOGGER.error("[CLIENT-BEAT] Exception while scheduling beat.", e);
             } finally {
+                //在第一次发送之后，会返回时间间隔，这时候就会设置clientBeatInterval,这个时候这个线程就会每隔clientBeatInterval这个时间执行一次任务
                 executorService.schedule(this, clientBeatInterval, TimeUnit.MILLISECONDS);
             }
         }
     }
 
+    /**
+     * 心跳的任务
+     */
     class BeatTask implements Runnable {
 
         BeatInfo beatInfo;
@@ -106,6 +116,7 @@ public class BeatReactor {
 
         @Override
         public void run() {
+            //向nacos服务发送心跳
             long result = serverProxy.sendBeat(beatInfo);
             beatInfo.setScheduled(false);
             if (result > 0) {

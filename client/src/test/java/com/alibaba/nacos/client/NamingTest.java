@@ -39,9 +39,12 @@ public class NamingTest {
     public void testServiceList() throws Exception {
 
         Properties properties = new Properties();
+        //配置注册中心的地址
         properties.put(PropertyKeyConst.SERVER_ADDR, "11.160.165.126:8848");
+        //注册中心的命名空间
         properties.put(PropertyKeyConst.NAMESPACE, "t1");
 
+        //启动注册中心
         NamingService namingService = NacosFactory.createNamingService(properties);
 
         Instance instance = new Instance();
@@ -53,6 +56,7 @@ public class NamingTest {
         map.put("version", "2.0");
         instance.setMetadata(map);
 
+        //向注册中心注册实例
         namingService.registerInstance("nacos.test.1", instance);
 
 //        ExpressionSelector expressionSelector = new ExpressionSelector();

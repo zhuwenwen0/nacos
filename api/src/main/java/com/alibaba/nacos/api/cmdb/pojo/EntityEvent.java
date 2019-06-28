@@ -21,6 +21,9 @@ package com.alibaba.nacos.api.cmdb.pojo;
  */
 public class EntityEvent {
 
+    /**
+     * entity事件类型
+     */
     private EntityEventType type;
     private String entityName;
     private String entityType;

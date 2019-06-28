@@ -25,6 +25,8 @@ import java.util.Set;
 
 /**
  * Service to visit CMDB store
+ * 这个接口没有实现类,在CmdbProvice里面使用ServiceLoader来生成对象{@link com.alibaba.nacos.cmdb.memory.CmdbProvider}
+ * ServiceLoader就是spi机制,比如jdk中的jdbcDrive和slf4j都是采用spi的思想
  *
  * @author nkorange
  * @since 0.7.0
