@@ -43,6 +43,7 @@ public class EventDispatcher {
 
     public EventDispatcher() {
 
+        //设置这个线程池为单线程,设置了线程了名字为listener,并且设置线程为守护线程
         executor = Executors.newSingleThreadExecutor(new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -52,7 +53,7 @@ public class EventDispatcher {
                 return thread;
             }
         });
-
+        //执行listener线程
         executor.execute(new Notifier());
     }
 
@@ -108,9 +109,11 @@ public class EventDispatcher {
     private class Notifier implements Runnable {
         @Override
         public void run() {
+            //一直轮询获取服务节点改变的服务信息
             while (true) {
                 ServiceInfo serviceInfo = null;
                 try {
+                    //获取阻塞队列中服务改变的服务节点信息
                     serviceInfo = changedServices.poll(5, TimeUnit.MINUTES);
                 } catch (Exception ignore) {
                 }

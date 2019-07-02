@@ -58,6 +58,7 @@ public class BeatReactor {
             }
         });
 
+        //执行心跳处理
         executorService.schedule(new BeatProcessor(), 0, TimeUnit.MILLISECONDS);
     }
 
@@ -88,16 +89,21 @@ public class BeatReactor {
             try {
                 for (Map.Entry<String, BeatInfo> entry : dom2Beat.entrySet()) {
                     BeatInfo beatInfo = entry.getValue();
+                    //如果是在这个周期已经发送过心跳了，就直接跳出
                     if (beatInfo.isScheduled()) {
                         continue;
                     }
+                    //然后设置这个心跳已经在这个周期发送过心跳了
                     beatInfo.setScheduled(true);
+                    //调用BeatTask，来进行发送心跳，而BeatTask的作用就是发送一次心跳，然后设置scheduled变为false
+                    //以便在下一次心跳检测的时候，能够继续发送心跳
                     executorService.schedule(new BeatTask(beatInfo), 0, TimeUnit.MILLISECONDS);
                 }
             } catch (Exception e) {
                 NAMING_LOGGER.error("[CLIENT-BEAT] Exception while scheduling beat.", e);
             } finally {
-                //在第一次发送之后，会返回时间间隔，这时候就会设置clientBeatInterval,这个时候这个线程就会每隔clientBeatInterval这个时间执行一次任务
+                //在第一次发送之后，会返回时间间隔，这时候就会设置clientBeatInterval,
+                // 这个时候这个线程就会每隔clientBeatInterval这个时间就会检测一下心跳,观察是否有新加入的服务
                 executorService.schedule(this, clientBeatInterval, TimeUnit.MILLISECONDS);
             }
         }

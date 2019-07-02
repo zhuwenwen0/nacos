@@ -110,6 +110,14 @@ public class NacosNamingService implements NamingService {
         hostReactor = new HostReactor(eventDispatcher, serverProxy, cacheDir, isLoadCacheAtStart(properties), initPollingThreadCount(properties));
     }
 
+    /**
+     * 初始化执行心跳处理客户端线程池的大小
+     * 如果配置文件中有指定，那么就从配置文件中读取
+     * 否则就根据cpu核数进行动态配置
+     *
+     * @param properties 配置文件
+     * @return
+     */
     private int initClientBeatThreadCount(Properties properties) {
         if (properties == null) {
             return UtilAndComs.DEFAULT_CLIENT_BEAT_THREAD_COUNT;

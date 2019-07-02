@@ -147,6 +147,13 @@ public class CapacityController {
         }
     }
 
+    /**
+     * 当不需要返回rest数据时候，可以直接在httpResponse进行返回调用结果
+     *
+     * @param response
+     * @param restResult
+     * @param statusCode
+     */
     private void setFailResult(HttpServletResponse response, RestResult<Boolean> restResult, int statusCode) {
         response.setStatus(statusCode);
         restResult.setCode(statusCode);

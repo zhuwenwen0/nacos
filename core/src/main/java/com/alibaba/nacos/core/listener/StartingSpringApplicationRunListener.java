@@ -159,11 +159,15 @@ public class StartingSpringApplicationRunListener implements SpringApplicationRu
                 @Override
                 public Thread newThread(Runnable r) {
                     Thread thread = new Thread(r, "nacos-starting");
+                    //只要程序不终止,守护线程就不会终止
                     thread.setDaemon(true);
                     return thread;
                 }
             });
 
+            //利用spring的监听事件，在spring boot启动时就会执行这个任务
+            //spring boot启动时调用run方法，然后会加载所有SpringApplicationRunListener接口下的类
+            //然后放到一个容器中，最后启动
             scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
                 @Override
                 public void run() {
