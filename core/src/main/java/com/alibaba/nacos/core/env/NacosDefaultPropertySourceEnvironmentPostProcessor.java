@@ -55,6 +55,14 @@ public class NacosDefaultPropertySourceEnvironmentPostProcessor implements Envir
 
     private static final String FILE_ENCODING = "UTF-8";
 
+    /**
+     * 在spring boot配置创建完环境之后，配置环境的时候调用,发生在容器启动之前
+     * spring boot启动时会发布一个获取当前环境的事件，这个事件会被ConfigFileApplicationListener监听到
+     * 然后处理的时候就是调用EnvironmentPostProcessor来对环境进行处理
+     *
+     * @param environment 环境
+     * @param application application
+     */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 
@@ -64,6 +72,12 @@ public class NacosDefaultPropertySourceEnvironmentPostProcessor implements Envir
 
     }
 
+    /**
+     * 根据实际启动传入的application获取ResourceLoader
+     *
+     * @param application spring boot启动时创建的application
+     * @return ResourceLoader
+     */
     private ResourceLoader getResourceLoader(SpringApplication application) {
 
         ResourceLoader resourceLoader = application.getResourceLoader();

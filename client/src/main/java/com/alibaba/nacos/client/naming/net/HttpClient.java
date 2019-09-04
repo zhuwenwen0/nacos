@@ -65,6 +65,16 @@ public class HttpClient {
         return request(url, headers, paramValues, encoding, "GET");
     }
 
+    /**
+     * http请求构建和返回参数封装,put和post方法，只是用来新增和修改的，所以不含有返回值，只有get会获取返回值
+     *
+     * @param url         url
+     * @param headers     头部信息
+     * @param paramValues 参数值
+     * @param encoding    编码
+     * @param method      请求方法(GET , POST , PUT等)
+     * @return 返回结果
+     */
     public static HttpResult request(String url, List<String> headers, Map<String, String> paramValues, String encoding, String method) {
         HttpURLConnection conn = null;
         try {

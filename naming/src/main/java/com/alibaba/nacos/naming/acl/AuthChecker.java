@@ -32,6 +32,8 @@ import java.security.AccessControlException;
 import java.util.Map;
 
 /**
+ * 用户身份验证
+ *
  * @author nkorange
  */
 @Component

@@ -51,6 +51,7 @@ import java.util.*;
 
 /**
  * Instance operation controller
+ * 实例controller,负责注册服务等操作
  *
  * @author nkorange
  */

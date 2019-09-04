@@ -20,6 +20,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Annotation to determine if method should be redirected.
+ * 标记这个方法是否应该是重定向
  *
  * @author nkorange
  * @since 1.0.0

@@ -52,6 +52,11 @@ public class LoggingSpringApplicationRunListener implements SpringApplicationRun
     public void starting() {
     }
 
+    /**
+     * 在spring容器刷新之前进行的属性设置操作
+     *
+     * @param environment 可配置的环境
+     */
     @Override
     public void environmentPrepared(ConfigurableEnvironment environment) {
         if (!environment.containsProperty(CONFIG_PROPERTY)) {
